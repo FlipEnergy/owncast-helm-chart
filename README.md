@@ -1,5 +1,6 @@
 [![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/flipenergy)](https://artifacthub.io/packages/search?repo=flipenergy)
 # Helm chart for deploying Owncast to K8s
+**Go to artifact hub for versions.**
 
 Bare bones helm chart for deploying [Owncast](https://owncast.online/) to k8s.
 
