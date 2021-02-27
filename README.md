@@ -2,7 +2,7 @@
 # Helm chart for deploying Owncast to K8s
 **Go to artifact hub for versions.**
 
-Bare bones helm chart for deploying [Owncast](https://owncast.online/) to k8s.
+A simple helm chart for deploying [Owncast](https://owncast.online/) to k8s.
 
 see [values.yaml](owncast/values.yaml) for configurations.
 
