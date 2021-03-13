@@ -14,7 +14,6 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -28,11 +27,11 @@ spec:
       serviceAccountName: {{ include "owncast.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{- if .Values.config }}
+      {{- if .Values.persistence.volumeClaim.enabled }}
       volumes:
         - name: {{ include "owncast.fullname" . }}
-          configMap:
-            name: {{ include "owncast.fullname" . }}
+          persistentVolumeClaim:
+            claimName: {{ include "owncast.fullname" . }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -40,11 +39,10 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.config }}
+          {{- if .Values.persistence.volumeClaim.enabled }}
           volumeMounts:
-            - name: {{ include "owncast.fullname" . }}
-              mountPath: /app/config.yaml
-              subPath: config.yaml
+            - mountPath: /app/data
+              name: {{ include "owncast.fullname" . }}
           {{- end }}
           ports:
             - name: http
